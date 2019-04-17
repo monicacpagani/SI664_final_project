@@ -1,0 +1,44 @@
+{% extends 'base_bootstrap.html' %}
+{% load app_tags %} <!-- see home/templatetags/app_tags.py -->
+{% block navbar %}
+<!-- https://www.w3schools.com/booTsTrap/bootstrap_navbar.asp -->
+<meta name="wa4e" content="0336dcbab05b9d5ad24f4333c7658a0e">
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header" >
+        <a class="navbar-brand" href="/">{{ settings.APP_NAME }}</a>
+    </div>
+    <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
+    <ul class="nav navbar-nav">
+      {% url 'situations' as situations %}
+      <li {% if request.get_full_path == situations %}class="active"{% endif %}>
+          <a href="{% url 'situations' %}">Situations</a></li>
+    </ul>
+    <ul class="nav navbar-nav">
+      {% url 'search' as search %}
+      <li {% if request.get_full_path == search %}class="active"{% endif %}>
+          <a href="{% url 'search' %}">Search</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li>
+        <a href="{% url 'situation_create' %}">Create Situation</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                <img style="width: 25px;" src="{{ user|gravatar:60 }}"/><b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </li>
+        {% else %}
+        <li>
+        <a href="{% url 'login' %}?next={% url 'situations' %}">Login</a>
+        </li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+</nav>

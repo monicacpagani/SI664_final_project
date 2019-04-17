@@ -1,0 +1,62 @@
+{% extends "base_menu.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block content %}
+<body style="background-color:#DEF4F7;">
+<span style="float: right;">
+({{ situation.updated_at|naturaltime}})
+{% if situation.owner == user %}
+<a href="{% url 'situation_update' situation.id %}"><i class="fa fa-pencil"></i></a>
+<a href="{% url 'situation_delete' situation.id %}"><i class="fa fa-trash"></i></a>
+{% endif %}
+</span>
+<h1>{{ situation.name }}</h1>
+<p>
+<strong>Country:</strong> {{ situation.country }}
+</p>
+<p>
+<strong>Displaced Population Estimate:</strong> {{ situation.population_estimate }}
+</p>
+<p>
+<strong>In-country Focal Point:</strong> {{ situation.focal_point }}
+</p>
+<p>
+<strong>Situation Type:</strong> {{ situation.situation_type }}
+</p>
+<p>
+<strong>Year of First Reported Movement:</strong> {{ situation.year }}
+</p>
+<p>
+<strong>Aid Provier(s):</strong> {% for aidprov in situation.aid_provider.all %}
+  {{ aidprov.name }}
+{% endfor %}
+</p>
+<p>
+<strong>Description:</strong> {{ situation.description }}
+</p>
+<p>
+({{ situation.updated_at|naturaltime}})
+</p>
+{% if user.is_authenticated %}
+<br clear="all"/>
+<p>
+<h3>Situation Updates</h3>
+<form method="post" action="{% url 'comment_create' situation.id %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+<input type="submit" value="Submit">
+</form>
+</p>
+{% endif %}
+{% for comment in comments %}
+<p> {{ comment.text }}
+({{ comment.updated_at|naturaltime}})
+{% if user == comment.owner %}
+<a href="{% url 'comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
+{% endif %}
+</p>
+{% endfor %}
+<p>
+<a href="{% url 'situations' %}">All situations</a>
+</p>
+{% endblock %}

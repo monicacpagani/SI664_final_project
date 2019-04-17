@@ -1,0 +1,24 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+<body style="background-color:#DEF4F7;">
+  <h1>Internally Displaced Persons Monitoring Platform</h1>
+  <p>Welcome to the IDP Situation Monitor, an application developed by Monica in SI 664 and the University of Michigan</p>
+  <div></div>
+  <h3>Application content</h3>
+  <p>In 2017, global estimates cited that there were approximately 30 million people who are considered internally displaced in 143 countries. Internal displacement largely occurs due to conflict or natural disasters. Recently, international organizations have invested substantial resources into quantifying the impact of internal displacement in order to target humanitarian assistance. This application is designed as a pilot tool for individuals or organizations to monitor ongoing humanitarian crises. </p>
+  <div></div>
+  <p>The application has the following records of IDP situations:</p>
+  <ul>
+    <li><strong>Situations:</strong> {{ num_situations }}</li>
+  </ul>
+
+  <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
+
+<div></div>
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next={% url 'home' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'home' %}">Login</a>
+{% endif %}
+{% endblock %}

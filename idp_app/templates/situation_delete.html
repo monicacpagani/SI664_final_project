@@ -1,0 +1,12 @@
+{% extends "base_menu.html" %}
+{% block content %}
+<body style="background-color:#DEF4F7;">
+<h1>Delete Situation</h1>
+
+<p>Are you sure you want to delete the situation: {{ situation }}?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Yes, delete.">
+</form>
+{% endblock %}

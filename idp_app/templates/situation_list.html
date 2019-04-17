@@ -1,0 +1,31 @@
+{% extends "base_menu.html" %}
+{% block content %}
+<body style="background-color:#DEF4F7;">
+<h1>Situations</h1>
+<p>
+{% if situation_list %}
+<ul>
+  {% for situation in situation_list %}
+    <li>
+        <a href="{% url 'situation_detail'  situation.id %}">{{ situation.name }}, {{ situation.country }} </a>
+        {% if situation.owner == user %}
+        (<a href="{% url 'situation_update' situation.id %}">Edit</a> |
+        <a href="{% url 'situation_delete' situation.id %}">Delete</a>)
+        </p>
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no situations in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'situation_create' %}">Add a Situation</a> |
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next={% url 'situations' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'situations' %}">Login</a>
+{% endif %}
+</p>
+{% endblock %}

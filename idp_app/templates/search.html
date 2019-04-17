@@ -1,0 +1,24 @@
+{% extends "base_menu.html" %}
+{% block content %}
+<body style="background-color:#DEF4F7;">
+<h1>Search</h1>
+
+Search situations by title or name (i.e. drought, civil war)
+
+<br></br>
+
+<form action="{% url 'search' %}" method="GET">
+Search <input type="text" name="searchTerm" placeholder="Search situations"/>
+<input type="submit" name="submit" value="Search"/>
+</form>
+
+<br></br>
+
+{%for s in situation%}
+  <strong>Situation:</strong> {{s.name}}
+  <strong>Country:</strong> {{s.country}}
+  <strong>Displaced Population:</strong> {{s.population_estimate}}
+  <br></br>
+{%endfor%}
+
+{% endblock %}
